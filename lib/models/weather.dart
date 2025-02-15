@@ -1,6 +1,7 @@
 class Weather {
   final String city;
   final DateTime date;
+  final DateTime day;
   final String weather;
   final String description;
   final double temperature;
@@ -11,6 +12,7 @@ class Weather {
   const Weather({
     required this.city,
     required this.date,
+    required this.day,
     required this.weather,
     required this.description,
     required this.temperature,
