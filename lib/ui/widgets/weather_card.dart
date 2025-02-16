@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:weather_app/models/weather.dart';
 
 class WeatherCard extends StatelessWidget {
   const WeatherCard({
     super.key,
-    required this.wind,
-    required this.humidity,
-    required this.visibility,
+    required this.weather,
   });
 
-  final double wind;
-  final double humidity;
-  final double visibility;
+  final Weather weather;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,7 @@ class WeatherCard extends StatelessWidget {
                 height: 15,
               ),
               Text(
-                '50km/h',
+                '${weather.wind.toStringAsFixed(0)}m/sec',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Color.fromARGB(255, 255, 255, 6),
                       fontWeight: FontWeight.bold,
@@ -65,7 +62,7 @@ class WeatherCard extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                '48%',
+                '${weather.humidity}%',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Color.fromARGB(255, 255, 255, 6),
                       fontWeight: FontWeight.bold,
@@ -92,7 +89,7 @@ class WeatherCard extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                '1.6km',
+                '${(weather.visibility / 1000).toStringAsFixed(0)}km',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Color.fromARGB(255, 255, 255, 6),
                       fontWeight: FontWeight.bold,

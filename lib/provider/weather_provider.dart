@@ -6,7 +6,9 @@ import 'package:location/location.dart';
 import 'package:weather_app/models/weather.dart';
 
 class WeatherNotifier extends StateNotifier<AsyncValue<Weather>> {
-  WeatherNotifier() : super(const AsyncValue.loading());
+  WeatherNotifier() : super(const AsyncValue.loading()) {
+    getWeatherData();
+  }
 
   Future<void> getWeatherData() async {
     try {
@@ -44,14 +46,14 @@ class WeatherNotifier extends StateNotifier<AsyncValue<Weather>> {
       final currentDay = DateTime(now.day);
 
       final url = Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=d6875bee5ab068fba1864882129de594#',
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=12794b371056bc13eafb628cde7d5adf&units=metric',
       );
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
 
-        final city = jsonData['country'];
+        final city = jsonData['sys']['country'];
         final weather = jsonData['weather'][0]['main'];
         final description = jsonData['weather'][0]['description'];
         final temperature = jsonData['main']['temp'];
@@ -72,11 +74,20 @@ class WeatherNotifier extends StateNotifier<AsyncValue<Weather>> {
         );
 
         state = AsyncValue.data(data);
-        print(data);
+        print('tipe data wind : ${wind.runtimeType}');
+        print('tipe data humidity : ${humidity.runtimeType}');
+        print('tipe data visibility : ${visibility.runtimeType}');
+      } else {
+        state = AsyncValue.error('url not found', StackTrace.current);
       }
     } catch (error) {
       state = AsyncValue.error(
           'Failed to fetch data: \n$error', StackTrace.current);
+      print(error);
     }
   }
 }
+
+final weatherProvider =
+    StateNotifierProvider<WeatherNotifier, AsyncValue<Weather>>(
+        (ref) => WeatherNotifier());
